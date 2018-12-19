@@ -139,5 +139,18 @@ public class PersonService {
 		}
 	}
 
+	/**
+	 * 分页获取记录
+	 * @param offset 跳过前面多少条记录
+	 * @param maxResult 每页获取多少条记录
+	 * @return
+	 */
+	public Cursor getCursorScrollData(int offset, int maxResult) {
+		SQLiteDatabase database= dbOpenHelper.getReadableDatabase();
+		//Cursor cursor =database.query( "person", null, null, null, null, null, "personid asc", offset+","+maxResult);
+		Cursor cursor = database.rawQuery("select personid as _id,name,phone,amount from person order by personid asc limit ?,?",
+				new String[]{String.valueOf(offset), String.valueOf(maxResult)});
+		return cursor;
+	}
 
 }
